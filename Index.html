@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soy IBA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #fafafa;
+    }
+
+    /* Gradiente tipo Instagram */
+    .insta-gradient {
+      background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    }
+
+    /* Modal visible */
+    .story-active {
+      display: flex !important;
+    }
+
+    /* Animación fade */
+    .fade {
+      animation: fadein 0.5s;
+    }
+
+    @keyframes fadein {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Barra de progreso */
+    .progress-bar {
+      transition: width 1s linear;
+    }
+  </style>
+
+
+</head>
+ <!-- Header -->
+  <header class="sticky top-0 bg-white/80 backdrop-blur-md border-b border-gray-200 p-4 flex justify-between items-center shadow-sm z-50">
+    <div class="flex items-center gap-2">
+      <img src="https://i.imgur.com/41xX3kW.png" class="w-8 h-8 rounded-full" alt="logo">
+      <h1 class="text-lg font-bold">Soy IBA</h1>
+    </div>
+    <button id="configBtn" class="p-2 rounded-full hover:bg-gray-100" aria-haspopup="true" aria-expanded="false" aria-controls="menuPopup">
+      <!-- 3 puntos (icon) -->
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+      </svg>
+    </button>
+  </header>
+
+  <!-- Popup menú (separado del botón para evitar solapamientos en el ribbon) -->
+  <div id="menuPopup" class="hidden fixed top-16 right-4 bg-white border border-gray-200 rounded-lg shadow-lg p-2 w-56 z-60" role="menu" aria-hidden="true">
+    <button class="flex items-center gap-2 w-full p-2 text-left hover:bg-gray-100 text-sm" role="menuitem" onclick="alert('Gestionar notificaciones (demo)')">
+      <svg xmlns='http://www.w3.org/2000/svg' class='w-4 h-4 text-blue-600' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9'/></svg>
+      Notificaciones
+    </button>
+
+    <button class="flex items-center gap-2 w-full p-2 text-left hover:bg-gray-100 text-sm" role="menuitem" onclick="alert('Crear nuevo evento (demo)')">
+      <svg xmlns='http://www.w3.org/2000/svg' class='w-4 h-4 text-green-600' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M12 4.5v15m7.5-7.5h-15'/></svg>
+      Nuevo evento
+    </button>
+
+    <button class="flex items-center gap-2 w-full p-2 text-left hover:bg-gray-100 text-sm" role="menuitem" onclick="alert('Abrir configuración (demo)')">
+      <svg xmlns='http://www.w3.org/2000/svg' class='w-4 h-4 text-gray-700' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.034c1.543-.93 3.31.826 2.379 2.37a1.724 1.724 0 001.034 2.572c1.756.427 1.756 2.924 0 3.35a1.724 1.724 0 00-1.034 2.573c.93 1.543-.826 3.31-2.37 2.379a1.724 1.724 0 00-2.572 1.034c-.427 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.034c-1.543.93-3.31-.826-2.379-2.37a1.724 1.724 0 00-1.034-2.572c-1.756-.427-1.756-2.924 0-3.35.408-.1.78-.355 1.034-0.739'/></svg>
+      Configuración
+    </button>
+  </div>
+
+  
+  <!-- RIBBON SUPERIOR -->
+  <!---<header class="flex items-center justify-between p-4 bg-white shadow">
+    <h1 class="text-2xl font-bold text-pink-600">Soy IBA</h1>
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
+    </svg>
+  </header>-->
+<main class="p-1 space-y-1 mt-1">
+    <h3 class="text-lg font-semibold mb-4">📅 Proximos eventos</h3>   
+  <!-- EVENTOS -->
+  <section class="p-1 overflow-x-auto flex gap-1">
+    <div class="flex gap-4">
+      <div class="flex-shrink-0 text-center cursor-pointer" onclick="openStory(0)">
+        <div class="p-[2px] rounded-full insta-gradient">
+          <img src="https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?w=200" class="w-20 h-20 rounded-full object-cover border-2 border-white">
+        </div>
+        <p class="text-xs mt-1">Concierto </p>
+      </div>
+
+      <div class="flex-shrink-0 text-center cursor-pointer" onclick="openStory(1)">
+        <div class="p-[2px] rounded-full insta-gradient">
+          <img src="https://images.unsplash.com/photo-1551836022-4c4c79ecde51?w=200" class="w-20 h-20 rounded-full object-cover border-2 border-white">
+        </div>
+        <p class="text-xs mt-1">Reunión</p>
+      </div>
+
+      <div class="flex-shrink-0 text-center cursor-pointer" onclick="openStory(2)">
+        <div class="p-[2px] rounded-full insta-gradient">
+          <img src="https://images.unsplash.com/photo-1535930749574-1399327ce78f?w=200" class="w-20 h-20 rounded-full object-cover border-2 border-white">
+        </div>
+        <p class="text-xs mt-1">Domingo</p>
+      </div>
+    </div>
+  </section>
+  <!--Novedades de sheet-->
+  <main class="p-1 space-y-1 mt-1">
+    <h2 class="text-lg font-bold mb-4">✨ Novedades</h2>    
+
+<section id="novedades" class="p-1 space-y-6"></section>
+
+  <!-- NOVEDADES -->
+  <section class="p-4 space-y-6">
+    <div class="bg-white rounded-2xl shadow">
+      <img src="https://images.unsplash.com/photo-1497493292307-31c376b6e479?w=800" class="w-full h-64 object-cover rounded-t-2xl">
+      <div class="p-3">
+        <h2 class="font-semibold text-lg">Transmisión en vivo 🎥</h2>
+        <p class="text-gray-600 text-sm mt-1">Disfruta del mensaje del domingo a las 10 AM.</p>
+        <div class="flex justify-between items-center mt-3">
+          <span class="text-xs text-gray-400">Publicado: 9 oct 2025</span>
+          <button class="text-pink-600 text-sm" onclick="sharePost('Transmisión en vivo')">Compartir</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow">
+      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800" class="w-full h-64 object-cover rounded-t-2xl">
+      <div class="p-3">
+        <h2 class="font-semibold text-lg">Noche de Alabanza ✨</h2>
+        <p class="text-gray-600 text-sm mt-1">Únete a nosotros para una noche de adoración y música.</p>
+        <div class="flex justify-between items-center mt-3">
+          <span class="text-xs text-gray-400">Publicado: 7 oct 2025</span>
+          <button class="text-pink-600 text-sm" onclick="sharePost('Noche de Alabanza')">Compartir</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY MODAL -->
+  <div id="storyModal" class="hidden fixed inset-0 bg-black bg-opacity-90 justify-center items-center z-50">
+    <!-- X SIEMPRE VISIBLE -->
+    <button onclick="closeStory()" class="absolute top-4 right-4 text-white text-3xl font-bold z-50">×</button>
+
+    <!-- Barra de progreso y contador -->
+    <div class="absolute top-0 left-0 w-full px-6 pt-5 z-40">
+      <div class="h-1 bg-gray-500 rounded-full overflow-hidden">
+        <div id="progressBar" class="h-1 bg-pink-500 progress-bar" style="width:0%"></div>
+      </div>
+      <p id="countdown" class="text-white text-sm mt-1 text-right">5s</p>
+    </div>
+
+    <div class="relative w-full h-full flex items-center justify-center">
+      <div id="storyContent" class="relative w-full h-full flex items-center justify-center fade">
+        <img id="storyImage" src="" class="object-cover w-full h-full">
+        <div class="absolute bottom-0 w-full bg-gradient-to-t from-black/80 to-transparent p-6 text-white">
+          <h2 id="storyTitle" class="text-xl font-bold"></h2>
+          <p id="storyDesc" class="text-sm"></p>
+          <button id="shareBtn" onclick="shareStory()" class="absolute bottom-6 right-6 text-white bg-pink-500 rounded-full p-2 text-xs">🔗</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    
+  <script>
+    const stories = [
+      {
+        img: "https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?w=1080",
+        title: "Concierto de Fe",
+        desc: "Una noche llena de música y esperanza."
+      },
+      {
+        img: "https://images.unsplash.com/photo-1551836022-4c4c79ecde51?w=1080",
+        title: "Reunión de líderes",
+        desc: "Creciendo juntos en propósito."
+      },
+      {
+        img: "https://images.unsplash.com/photo-1535930749574-1399327ce78f?w=1080",
+        title: "Domingo de adoración",
+        desc: "Ven y comparte con nosotros."
+      }
+    ];
+
+    let currentStory = 0;
+    let autoAdvance;
+    let countdownInterval;
+    const duration = 5; // segundos
+    let remaining = duration;
+
+    function showStory(index) {
+      currentStory = index;
+      const story = stories[index];
+      document.getElementById("storyImage").src = story.img;
+      document.getElementById("storyTitle").innerText = story.title;
+      document.getElementById("storyDesc").innerText = story.desc;
+      resetProgress();
+    }
+
+    function openStory(index) {
+      const modal = document.getElementById("storyModal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      showStory(index);
+      startAutoAdvance();
+    }
+
+    function closeStory() {
+      const modal = document.getElementById("storyModal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+      clearInterval(autoAdvance);
+      clearInterval(countdownInterval);
+      resetProgress(true);
+    }
+
+    function nextStory() {
+      currentStory = (currentStory + 1) % stories.length;
+      showStory(currentStory);
+    }
+
+    function startAutoAdvance() {
+      clearInterval(autoAdvance);
+      clearInterval(countdownInterval);
+      remaining = duration;
+      updateCountdown();
+
+      countdownInterval = setInterval(() => {
+        remaining--;
+        updateCountdown();
+        if (remaining <= 0) {
+          nextStory();
+        }
+      }, 1000);
+
+      let progress = 0;
+      const progressBar = document.getElementById("progressBar");
+      progressBar.style.width = "0%";
+
+      autoAdvance = setInterval(() => {
+        progress += 20; // cada segundo equivale al 20%
+        progressBar.style.width = progress + "%";
+        if (progress >= 100) {
+          progress = 0;
+          progressBar.style.width = "0%";
+        }
+      }, 1000);
+    }
+
+    function resetProgress(clear = false) {
+      const progressBar = document.getElementById("progressBar");
+      progressBar.style.width = clear ? "0%" : "100%";
+      remaining = duration;
+      updateCountdown();
+    }
+
+    function updateCountdown() {
+      document.getElementById("countdown").innerText = remaining + "s";
+    }
+
+    function shareStory() {
+      const story = stories[currentStory];
+      if (navigator.share) {
+        navigator.share({
+          title: story.title,
+          text: story.desc,
+          url: window.location.href
+        });
+      } else {
+        alert("Tu navegador no soporta compartir.");
+      }
+    }
+
+    function sharePost(title) {
+      if (navigator.share) {
+        navigator.share({
+          title: title,
+          url: window.location.href
+        });
+      } else {
+        alert("Tu navegador no soporta compartir.");
+      }
+    }
+
+    
+
+    
+  </script>
+
+<script>
+
+
+function esImagen(url){return !!url&&/\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i.test(url);}
+function convertirEnlaceYouTube(url){
+  if(!url)return null;
+  url=String(url).trim();
+  let m=url.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/i);
+  if(m)return`https://www.youtube.com/embed/${m[1]}`;
+  m=url.match(/[?&]v=([a-zA-Z0-9_-]{11})/i);
+  if(m)return`https://www.youtube.com/embed/${m[1]}`;
+  m=url.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/i);
+  if(m)return`https://www.youtube.com/embed/${m[1]}`;
+  m=url.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]+)/i);
+  if(m)return`https://www.youtube.com/embed/${m[1]}`;
+  return null;
+}
+function convertirSpotifyEnEmbed(url){
+  if(!url)return null;
+  url=url.split("?")[0];url=url.replace("/intl-es","");
+  const m=url.match(/open\.spotify\.com\/(track|album|playlist)\/([a-zA-Z0-9]+)/);
+  if(m)return`https://open.spotify.com/embed/${m[1]}/${m[2]}`;
+  if(url.includes("embed"))return url;
+  return null;
+}
+
+aconst URL_WEBHOOK = "https://TU-N8N/webhook/novedades-soyiba";
+
+async function cargarNovedades(){
+  const cont = document.getElementById("novedades");
+  if(!cont) return;
+
+  cont.innerHTML = "<p class='text-center text-gray-400'>Cargando novedades...</p>";
+
+  try{
+    const response = await fetch(URL_WEBHOOK);
+    const data = await response.json();
+
+    cont.innerHTML = "";
+
+    // ordenar por fecha descendente
+    data.sort((a,b)=> new Date(b.Fecha) - new Date(a.Fecha));
+
+    data.forEach((row,i)=>{
+
+      const titulo = row.Titulo?.trim() || "Sin título";
+      const contenido = row.Contenido?.trim() || "";
+      const img = row.Imagen?.trim() || "";
+      const vid = row.Video?.trim() || "";
+      const spot = row.Spotify?.trim() || "";
+      const fecha = row.Fecha ? new Date(row.Fecha).toLocaleDateString() : "";
+
+      const media = [];
+
+      if(esImagen(img))
+        media.push(`<img src="${img}" class="w-full h-64 object-cover rounded-xl novedad-img">`);
+
+      const y = convertirEnlaceYouTube(vid);
+      if(y)
+        media.push(`<iframe class="w-full h-64 rounded-xl" src="${y}" frameborder="0" allowfullscreen></iframe>`);
+
+      const s = convertirSpotifyEnEmbed(spot);
+      if(s)
+        media.push(`
+        <div class="relative w-full h-64 rounded-xl overflow-hidden bg-black flex items-center justify-center">
+          <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%]">
+            <iframe
+              src="${s}"
+              class="w-full h-[182px] rounded-xl"
+              style="border:none;"
+              allowtransparency="true"
+              allow="encrypted-media"
+              loading="lazy">
+            </iframe>
+          </div>
+        </div>`);
+
+      let multimediaHTML = "";
+
+      if(media.length > 1){
+        const id = `carousel-${i}`;
+        multimediaHTML = `
+        <div class="relative overflow-hidden">
+          <div id="${id}" class="flex overflow-x-auto snap-x snap-mandatory space-x-2 pb-2 scroll-smooth">
+            ${media.map(m=>`<div class="flex-shrink-0 w-full snap-center">${m}</div>`).join("")}
+          </div>
+        </div>`;
+      } 
+      else if(media.length === 1){
+        multimediaHTML = media[0];
+      }
+
+      const card = document.createElement("div");
+      card.className = "bg-white rounded-2xl shadow border border-gray-200 overflow-hidden";
+      card.innerHTML = `
+        ${multimediaHTML}
+        <div class="p-3">
+          <h2 class="font-semibold text-lg">${titulo}</h2>
+          <p class="text-gray-600 text-sm mt-1">${contenido}</p>
+          <div class="flex justify-between items-center mt-3">
+            <span class="text-xs text-gray-400">Publicado: ${fecha}</span>
+            <button class="text-pink-600 text-sm" onclick="sharePost('${titulo}')">Compartir</button>
+          </div>
+        </div>`;
+
+      cont.appendChild(card);
+    });
+
+  }catch(e){
+    console.error("Error:", e);
+    cont.innerHTML = "<p class='text-center text-red-500'>Error al cargar novedades.</p>";
+  }
+}
+
+
+
+
+      let multimediaHTML="";
+      if(media.length>1){
+        const id=`carousel-${i}`;
+        multimediaHTML=`
+        <div class="relative overflow-hidden">
+          <div id="${id}" class="flex overflow-x-auto snap-x snap-mandatory space-x-2 pb-2 scrollbar-hide scroll-smooth">
+            ${media.map(m=>`<div class="flex-shrink-0 w-full snap-center">${m}</div>`).join("")}
+          </div>
+          <div class="absolute bottom-1 left-0 right-0 flex justify-center space-x-1">
+            ${media.map((_,j)=>`<div class="dot w-2 h-2 ${j===0?'bg-pink-500':'bg-gray-300'} rounded-full"></div>`).join("")}
+          </div>
+        </div>`;
+        setTimeout(()=>{ // activar dots dinámicos
+          const carousel=document.getElementById(id);
+          const dots=carousel.parentElement.querySelectorAll(".dot");
+          carousel.addEventListener("scroll",()=>{
+            const index=Math.round(carousel.scrollLeft/carousel.clientWidth);
+            dots.forEach((d,k)=>d.classList.toggle("bg-pink-500",k===index));
+            dots.forEach((d,k)=>d.classList.toggle("bg-gray-300",k!==index));
+          });
+        },300);
+      } else if(media.length===1){
+        multimediaHTML=media[0];
+      }
+
+      const card=document.createElement("div");
+      card.className="bg-white rounded-2xl shadow border border-gray-200 overflow-hidden";
+      card.innerHTML=`
+        ${multimediaHTML}
+        <div class="p-3">
+          <h2 class="font-semibold text-lg">${titulo}</h2>
+          <p class="text-gray-600 text-sm mt-1">${contenido}</p>
+          <div class="flex justify-between items-center mt-3">
+            <span class="text-xs text-gray-400">Publicado: ${fecha}</span>
+            <button class="text-pink-600 text-sm" onclick="sharePost('${titulo}')">Compartir</button>
+          </div>
+        </div>`;
+      cont.appendChild(card);
+    });
+  }catch(e){
+    console.error("Error al cargar la hoja:",e);
+    cont.innerHTML="<p class='text-center text-red-500'>Error al cargar novedades.</p>";
+  }
+}
+
+function sharePost(titulo){
+  if(navigator.share){
+    navigator.share({title:titulo,text:"Mira esta novedad:",url:window.location.href});
+  }else alert("Tu navegador no soporta compartir");
+}
+
+document.addEventListener("DOMContentLoaded",cargarNovedades);
+
+// menú popup
+const configBtn=document.getElementById('configBtn');
+const menuPopup=document.getElementById('menuPopup');
+if(configBtn&&menuPopup){
+  configBtn.addEventListener('click',e=>{
+    e.stopPropagation();
+    menuPopup.classList.toggle('hidden');
+    const exp=menuPopup.classList.contains('hidden')?'false':'true';
+    configBtn.setAttribute('aria-expanded',exp);
+    menuPopup.setAttribute('aria-hidden',exp==='false');
+  });
+  window.addEventListener('click',e=>{
+    if(!configBtn.contains(e.target)&&!menuPopup.contains(e.target)){
+      menuPopup.classList.add('hidden');
+      configBtn.setAttribute('aria-expanded','false');
+      menuPopup.setAttribute('aria-hidden','true');
+    }
+  });
+}
+
+  // === Visor de imagen ampliada ===
+function initImageViewer() {
+  const viewer = document.getElementById("imageViewer");
+  const viewerImg = document.getElementById("viewerImg");
+  const closeBtn = document.getElementById("closeViewer");
+
+  // Mostrar imagen al hacer clic
+  document.body.addEventListener("click", e => {
+    if (e.target.tagName === "IMG" && e.target.closest(".novedad-img")) {
+      viewerImg.src = e.target.src;
+      viewer.classList.remove("hidden");
+      document.body.style.overflow = "hidden"; // Evita scroll de fondo
+    }
+  });
+
+  // Cerrar con X o clic fuera
+  closeBtn.addEventListener("click", () => {
+    viewer.classList.add("hidden");
+    viewerImg.src = "";
+    document.body.style.overflow = "";
+  });
+  viewer.addEventListener("click", e => {
+    if (e.target === viewer) {
+      viewer.classList.add("hidden");
+      viewerImg.src = "";
+      document.body.style.overflow = "";
+    }
+  });
+}
+
+// Iniciar visor cuando cargue todo
+document.addEventListener("DOMContentLoaded", initImageViewer);
+
+  
+</script>
+
+  <!-- Visor de imagen ampliada -->
+<div id="imageViewer" class="fixed inset-0 bg-black bg-opacity-90 hidden items-center justify-center z-50">
+  <button id="closeViewer" class="absolute top-4 right-4 text-white text-3xl font-bold z-50">×</button>
+  <img id="viewerImg" src="" alt="Ampliada" class="max-w-[90%] max-h-[85%] rounded-2xl shadow-lg object-contain">
+</div>
+    
+</body>
+</html>
+
+
+
+
